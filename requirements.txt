@@ -1,0 +1,16 @@
+pandas
+numpy
+langchain
+langchain-community
+accelerate
+gradio
+nltk
+Flask
+gTTS
+ipykernel
+keras
+PyAudio
+torch
+SpeechRecognition
+scikit-learn
+pyttsx3
