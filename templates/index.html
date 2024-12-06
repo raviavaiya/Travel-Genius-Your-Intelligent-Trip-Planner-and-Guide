@@ -16,7 +16,6 @@
             align-items: center;
             height: 100vh;
             background-image: url('https://th.bing.com/th/id/OIP.z-xwqAzYvfjfkblDAB8AHAHaED?rs=1&pid=ImgDetMain');
-            /* Replace with your image URL */
             background-size: cover;
             background-position: center;
         }
@@ -128,7 +127,6 @@
     <div id="chat-container">
         <h1 style="text-align: center;">Travel Assistant Bot</h1>
         <div id="chat-box">
-            <!-- Plane Animation -->
             <div id="loading-animation" class="plane-animation" style="display:none;">
                 <i class="fas fa-plane runway"></i> <span>Plane is running on the runway...</span>
             </div>
@@ -140,8 +138,8 @@
     </div>
 
     <script>
-        $(document).ready(function() {
-            $("#chat-form").on("submit", function(event) {
+        $(document).ready(function () {
+            $("#chat-form").on("submit", function (event) {
                 event.preventDefault();
                 var userInput = $("#user-input").val();
                 $("#chat-box").append(`<div class="user"><b>You:</b> ${userInput}</div>`);
@@ -149,22 +147,19 @@
 
                 // Show loading animation
                 $("#loading-animation").show();
-                
-                $.post("/answer", { input_text: userInput }, function(data) {
+
+                $.post("/answer", { input_text: userInput }, function (data) {
+                    $("#loading-animation").hide();
+
                     if (data.error) {
                         $("#chat-box").append(`<div class="bot"><b>Bot:</b> ${data.error}</div>`);
                     } else {
-                        // Show response text
-                        $("#chat-box").append(`<div class="bot"><b>Bot:</b> ${data.response}</div>`);
-
-                        // Play the audio (if available)
-                        if (data.audio) {
-                            var audio = new Audio("data:audio/mp3;base64," + data.audio);
-                            audio.play();
-                        }
-
-                        $("#chat-box").scrollTop($("#chat-box")[0].scrollHeight);
+                        $("#chat-box").append(`<div class="bot"><b>Bot:</b> ${data.answer}</div>`);
                     }
+
+                    $("#chat-box").scrollTop($("#chat-box")[0].scrollHeight);
+                }).fail(function () {
+                    $("#chat-box").append(`<div class="bot"><b>Bot:</b> Unable to process your request. Please try again.</div>`);
                 });
             });
         });
